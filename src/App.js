@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { nanoid } from 'nanoid'
+import {decode} from 'html-entities';
 import './App.css';
 import Question from "./components/Question";
 
@@ -19,7 +20,7 @@ export default function App() {
             const quizArray = result.results
 
             const filteredQuizInfo = quizArray.map(quiz => {
-                const question = quiz.question
+                const question = decode(quiz.question)
                 const correctAnswer = { id: nanoid(), value: quiz.correct_answer, isCorrect: true, isClicked: false }
                 const incorrectAnswers = quiz.incorrect_answers.map(answer => ({ id: nanoid(), value: answer, isCorrect: false, isClicked: false }))
                 const answersArray = [correctAnswer, ...incorrectAnswers]
@@ -50,6 +51,12 @@ export default function App() {
 
             return newState
         })
+    }
+
+    function handleGameRestart() {
+        setQuizStarted(false)
+        setQuizCheck(false)
+        getQuizData()
     }
  
     const questElements = quizInfo.map(quest => 
@@ -84,7 +91,7 @@ export default function App() {
             {questElements}
             {quizCheck && <p>You scored {filteredCorrectAnswers.length}/5 correct answers</p>}
             {quizCheck ?
-                <button onClick={() => {setQuizStarted(false); setQuizCheck(false); getQuizData()}}>Play again</button> :
+                <button onClick={handleGameRestart}>Play again</button> :
                 <button onClick={() => setQuizCheck(true)}>Check answers</button>
             }
         </div>
