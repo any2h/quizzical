@@ -1,15 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
-export default function Question({ question, answers, quizCheck }) {
-    const [answerList, setAnswerList] = useState(answers)
+export default function Question({ question, answers, quizCheck, handleClick }) {
 
-    function handleClick(id) {
-        setAnswerList(prevState => prevState.map(answer =>
-            answer.id === id ? { ...answer, isClicked: !answer.isClicked } : answer)
-        )
-    }
-
-    const gamePageBtns = answerList.map(answer =>
+    const gamePageBtns = answers.map(answer =>
         <div
             style={{ backgroundColor: answer.isClicked && 'lightblue' }}
             onClick={() => handleClick(answer.id)}
@@ -18,7 +11,7 @@ export default function Question({ question, answers, quizCheck }) {
         </div>
     )
 
-    const checkPageBtns = answerList.map(answer => {
+    const checkPageBtns = answers.map(answer => {
         if (answer.isCorrect) {
             return <div style={{ backgroundColor: 'lightgreen' }}>{answer.value}</div>
         } else if (!answer.isCorrect && answer.isClicked) {
