@@ -4,46 +4,47 @@ import './App.css';
 import Question from "./components/Question";
 
 export default function App() {
+    const [quizInfo, setQuizInfo] = useState([])
     const [quizStarted, setQuizStarted] = useState(false)
-    const [quiz, setQuiz] = useState([])
     const [quizCheck, setQuizCheck] = useState(false)
-    // const [userChoice, setUserChoice] = useState([])
-    // console.log(quiz)
 
     useEffect(() => {
-        fetch('https://opentdb.com/api.php?amount=5&type=multiple')
-            .then(res => res.json())
-            .then(res => setQuiz(res.results))
+        (async () => {
+            try {
+                const response = await fetch('https://opentdb.com/api.php?amount=5&type=multiple')
+                const result = await response.json()
+                const quizArray = result.results
+    
+                const filteredQuizInfo = quizArray.map(quiz => {
+                    const question = quiz.question
+                    const correctAnswer = { id: nanoid(), value: quiz.correct_answer, isCorrect: true, isClicked: false }
+                    const incorrectAnswers = quiz.incorrect_answers.map(answer => ({ id: nanoid(), value: answer, isCorrect: false, isClicked: false }))
+                    const answersArray = [correctAnswer, ...incorrectAnswers]
+    
+                    for (let i = answersArray.length - 1; i > 0; i--) {
+                        let j = Math.floor(Math.random() * (i + 1));
+                        [answersArray[i], answersArray[j]] = [answersArray[j], answersArray[i]];
+                    }
+    
+                    return { question: question, answers: [...answersArray]}
+                })
+                
+                setQuizInfo(filteredQuizInfo)
+            } catch (err) {
+                console.log(err);
+            }
+        })();
     }, [])
 
-    const questList = quiz.map(quiz => {
-        const question = quiz.question
-        const correctAnswer = { id: nanoid(), value: quiz.correct_answer, isCorrect: true, isClicked: false}
-        const incorrectAnswers = quiz.incorrect_answers.map(answer => ({ id: nanoid(), value: answer, isCorrect: false, isClicked: false}))
-        const answerList = [correctAnswer, ...incorrectAnswers]
+    console.log(quizInfo)
 
-        for (let i = answerList.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            [answerList[i], answerList[j]] = [answerList[j], answerList[i]];
-        }
-
-        return [question, answerList]
-    })
-
-    // console.log(questionList)
-
-    const questionElements = questList.map(quest =>
+    const questElements = quizInfo.map(quest => 
         <Question
-            question={quest[0]}
-            answerList={quest[1]}
-            handleCheck={handleCheck}
+            question={quest.question}
+            answers={quest.answers}
             quizCheck={quizCheck}
         />
     )
-
-    function handleCheck() {
-        setQuizCheck(!quizCheck)
-    }
 
     const introPage = (
         <div>
@@ -53,22 +54,20 @@ export default function App() {
         </div>
     )
 
-    const quizPage = (
+    const gamePage = (
         <div>
-            {questionElements}
-            <div>
-                {quizCheck && <p>You scored 5/5 correct answers</p>}
-                {quizCheck ?
-                    <button onClick={() => {setQuizStarted(false); setQuizCheck(false)}}>Play again</button> :
-                    <button onClick={() => setQuizCheck(true)}>Check answers</button>
-                }
-            </div>
+            {questElements}
+            {quizCheck && <p>You scored 5/5 correct answers</p>}
+            {quizCheck ?
+                <button onClick={() => {setQuizStarted(false); setQuizCheck(false)}}>Play again</button> :
+                <button onClick={() => setQuizCheck(true)}>Check answers</button>
+            }
         </div>
     )
 
     return (
         <div className="app">
-            {quizStarted ? quizPage : introPage}
+            {quizStarted ? gamePage : introPage}
         </div>
     )
 }
