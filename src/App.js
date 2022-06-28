@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { nanoid } from 'nanoid'
 import {decode} from 'html-entities';
-import './App.css';
+import styled from "styled-components";
 import Question from "./components/Question";
+
+const Quizzical = styled.div`
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: #F5F7FB;
+`
 
 export default function App() {
     const [quizInfo, setQuizInfo] = useState([])
@@ -98,8 +106,8 @@ export default function App() {
     )
 
     return (
-        <div className="app">
+        <Quizzical>
             {quizStarted ? gamePage : introPage}
-        </div>
+        </Quizzical>
     )
 }
