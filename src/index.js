@@ -1,12 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import styled, { createGlobalStyle } from 'styled-components';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+const GlobalStyles = createGlobalStyle`
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #293264;
+  }
+
+  h1, h3 {
+    font-family: 'Karla', sans-serif;
+  }
+`
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <GlobalStyles />
     <App />
   </React.StrictMode>
 );

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { nanoid } from 'nanoid'
 import {decode} from 'html-entities';
 import styled from "styled-components";
+import IntroPage from "./components/IntroPage";
 import Question from "./components/Question";
 
 const Quizzical = styled.div`
     display: flex;
     justify-content: center;
+    align-items: center;
     min-height: 100vh;
     padding: 2rem;
     background-color: #F5F7FB;
@@ -76,14 +78,6 @@ export default function App() {
         />
     )
 
-    const introPage = (
-        <div>
-            <h1>Quizzical</h1>
-            <p>Some description if needed</p>
-            <button onClick={() => setQuizStarted(true)}>Start quiz</button>
-        </div>
-    )
-
     const correctAnswersArray = quizInfo.map(quest => {
         let answerArr = []
 
@@ -107,7 +101,7 @@ export default function App() {
 
     return (
         <Quizzical>
-            {quizStarted ? gamePage : introPage}
+            {quizStarted ? gamePage : <IntroPage onClick={() => setQuizStarted(true)} />}
         </Quizzical>
     )
 }
