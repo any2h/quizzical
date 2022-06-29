@@ -9,10 +9,15 @@ const GlobalStyles = createGlobalStyle`
   body {
     font-family: 'Inter', sans-serif;
     color: #293264;
+    background-color: #F5F7FB;
   }
 
   h1, h3 {
     font-family: 'Karla', sans-serif;
+  }
+
+  #root {
+    overflow: hidden;
   }
 `
 

@@ -3,15 +3,49 @@ import { nanoid } from 'nanoid'
 import {decode} from 'html-entities';
 import styled from "styled-components";
 import IntroPage from "./components/IntroPage";
-import Question from "./components/Question";
+import GamePage from "./components/GamePage";
 
 const Quizzical = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    padding: 2rem;
-    background-color: #F5F7FB;
+    max-width: 680px;
+    min-height: 600px;
+    margin: 6rem auto 0;
+    padding-inline: 1rem;
+
+    &::before {
+        content: '';
+        position: fixed;
+        height: 120px;
+        width: 150px;
+        left: 0;
+        bottom: 0; 
+        background-image: url('./images/blob-baby.png');
+        background-repeat: no-repeat;
+        
+        @media (max-width: 768px) {
+            position: absolute;
+            height: 80px;
+        }
+    }
+
+    &::after {
+        content: '';
+        position: fixed;
+        height: 160px;
+        width: 160px;
+        right: 0;
+        top: 0;
+        background-image: url('./images/blob-lemony.png');
+        background-repeat: no-repeat;
+        
+        @media (max-width: 768px) {
+            position: absolute;
+            width: 100px;
+            height: 150px;
+        }
+    }
 `
 
 export default function App() {
@@ -51,11 +85,15 @@ export default function App() {
 
     function handleClick(id) {
         setQuizInfo(prevState => {
-            const newState = prevState.map(quest => {
+            const cleanState = prevState.map(quest => {
+                const newAnswers = quest.answers.map(answer => answer.isClicked ? answer.isClicked = false : answer)
+                return { ...quest, newAnswers }
+            })
+
+            const newState = cleanState.map(quest => {
                 const newAnswers = quest.answers.map(answer =>
                     answer.id === id ? { ...answer, isClicked: !answer.isClicked } : answer
                 )
-                
                 return { ...quest, answers: [...newAnswers] }
             })
 
@@ -68,40 +106,29 @@ export default function App() {
         setQuizCheck(false)
         getQuizData()
     }
- 
-    const questElements = quizInfo.map(quest => 
-        <Question
-            question={quest.question}
-            answers={quest.answers}
-            quizCheck={quizCheck}
-            handleClick={handleClick}
-        />
+
+    const introPage = (
+        <IntroPage onClick={() => setQuizStarted(true)} />
     )
 
-    const correctAnswersArray = quizInfo.map(quest => {
-        let answerArr = []
-
-        quest.answers.map(answer => answer.isClicked && answer.isCorrect ? answerArr.push(answer) : false)
-
-        return answerArr
-    })
-
-    const filteredCorrectAnswers = correctAnswersArray.filter(answer => answer.length)
-
     const gamePage = (
-        <div>
-            {questElements}
-            {quizCheck && <p>You scored {filteredCorrectAnswers.length}/5 correct answers</p>}
-            {quizCheck ?
-                <button onClick={handleGameRestart}>Play again</button> :
-                <button onClick={() => setQuizCheck(true)}>Check answers</button>
-            }
-        </div>
+        <GamePage
+            quizInfo={quizInfo}
+            quizLength={quizInfo.length}
+            quizCheck={quizCheck}
+            handleClick={handleClick}
+            handleGameRestart={handleGameRestart}
+            setQuizCheck={() => setQuizCheck(true)}
+        />
     )
 
     return (
         <Quizzical>
-            {quizStarted ? gamePage : <IntroPage onClick={() => setQuizStarted(true)} />}
+            {quizStarted ?
+                gamePage
+                :
+                introPage
+            }
         </Quizzical>
     )
 }
