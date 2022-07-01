@@ -9,7 +9,6 @@ const Quizzical = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 680px;
     min-height: 600px;
     margin: 6rem auto 0;
     padding-inline: 1rem;
@@ -85,12 +84,12 @@ export default function App() {
 
     function handleClick(id) {
         setQuizInfo(prevState => {
-            const cleanState = prevState.map(quest => {
-                const newAnswers = quest.answers.map(answer => answer.isClicked ? answer.isClicked = false : answer)
-                return { ...quest, newAnswers }
-            })
+            // const cleanState = prevState.map(quest => {
+            //     const newAnswers = quest.answers.map(answer => answer.isClicked ? answer.isClicked = false : answer)
+            //     return { ...quest, newAnswers }
+            // })
 
-            const newState = cleanState.map(quest => {
+            const newState = prevState.map(quest => {
                 const newAnswers = quest.answers.map(answer =>
                     answer.id === id ? { ...answer, isClicked: !answer.isClicked } : answer
                 )

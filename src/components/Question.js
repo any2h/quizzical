@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const StyledQuestion = styled.div`
@@ -16,7 +15,6 @@ const StyledQuestion = styled.div`
         display: flex;
         gap: 1rem;
     }
-
 `
 
 const AnswerBtn = styled.button`

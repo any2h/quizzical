@@ -18,7 +18,6 @@ const StyledGamePage = styled.div`
         font-size: .8rem;
         font-weight: 700;
     }
-
 `
 
 export default function GamePage({quizInfo, quizLength, quizCheck, handleClick, handleGameRestart, setQuizCheck}) {

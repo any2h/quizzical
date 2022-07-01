@@ -1,25 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import styled, { createGlobalStyle } from 'styled-components';
+import { GlobalStyles } from './GlobaStyles';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-const GlobalStyles = createGlobalStyle`
-  body {
-    font-family: 'Inter', sans-serif;
-    color: #293264;
-    background-color: #F5F7FB;
-  }
-
-  h1, h3 {
-    font-family: 'Karla', sans-serif;
-  }
-
-  #root {
-    overflow: hidden;
-  }
-`
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
