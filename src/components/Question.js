@@ -38,6 +38,7 @@ const AnswerBtn = styled.button`
                 return `transparent`
             }
         }};
+    transition: all .15s ease-in-out;
 
     &:hover {
         background-color: rgba(219, 222, 240, .6);
@@ -49,11 +50,11 @@ export default function Question({ question, answers, quizCheck, handleClick }) 
     const answerBtns = answers.map(answer => {
         if (quizCheck) {
             if (answer.isCorrect) {
-                return <AnswerBtn correct isClicked>{answer.value}</AnswerBtn>
+                return <AnswerBtn key={answer.id} correct isClicked>{answer.value}</AnswerBtn>
             } else if (!answer.isCorrect && answer.isClicked) {
-                return <AnswerBtn check incorrect isClicked>{answer.value}</AnswerBtn>
+                return <AnswerBtn key={answer.id} check incorrect isClicked>{answer.value}</AnswerBtn>
             } else {
-                return <AnswerBtn check>{answer.value}</AnswerBtn>
+                return <AnswerBtn key={answer.id} check>{answer.value}</AnswerBtn>
             }
         } else {
             return <AnswerBtn
