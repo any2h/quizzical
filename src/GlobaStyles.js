@@ -49,9 +49,7 @@ export const GlobalStyles = createGlobalStyle`
 
     /* Inherit fonts for inputs and buttons */
     input,
-    button,
-    textarea,
-    select {
+    button {
         font: inherit;
     }
 

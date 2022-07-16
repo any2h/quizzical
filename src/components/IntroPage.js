@@ -14,7 +14,7 @@ const StyledIntroPage = styled.div`
    
 `
 
-export default function IntroPage({onClick}) {
+export default function IntroPage({ onClick }) {
     return (
         <StyledIntroPage>            
             <h1>Quizzical</h1>

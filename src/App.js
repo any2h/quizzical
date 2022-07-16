@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { nanoid } from 'nanoid'
-import {decode} from 'html-entities';
+import { decode } from 'html-entities';
 import styled from "styled-components";
 import IntroPage from "./components/IntroPage";
 import GamePage from "./components/GamePage";
@@ -84,11 +84,6 @@ export default function App() {
 
     function handleClick(id) {
         setQuizInfo(prevState => {
-            // const cleanState = prevState.map(quest => {
-            //     const newAnswers = quest.answers.map(answer => answer.isClicked ? answer.isClicked = false : answer)
-            //     return { ...quest, newAnswers }
-            // })
-
             const newState = prevState.map(quest => {
                 const newAnswers = quest.answers.map(answer =>
                     answer.id === id ? { ...answer, isClicked: !answer.isClicked } : answer

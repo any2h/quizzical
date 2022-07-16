@@ -20,7 +20,7 @@ const StyledGamePage = styled.div`
     }
 `
 
-export default function GamePage({quizInfo, quizLength, quizCheck, handleClick, handleGameRestart, setQuizCheck}) {
+export default function GamePage({ quizInfo, quizLength, quizCheck, handleClick, handleGameRestart, setQuizCheck }) {
     const questElements = quizInfo.map((quest, i) => 
         <Question
             key={i}
